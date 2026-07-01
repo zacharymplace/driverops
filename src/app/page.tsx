@@ -7,6 +7,7 @@ import {
   dashboardKpis,
 } from "@/data/mockDriverOps";
 import { getBusinessHealth } from "@/lib/analytics/businessHealth";
+import { getEventFeed } from "@/lib/analytics/eventFeed";
 import { getLatestShiftSummary } from "@/lib/analytics/latestShiftSummary";
 import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
@@ -23,6 +24,7 @@ export default function Home() {
     Math.max(0, Math.round((shiftMetrics.weeklyProfit / weeklyTarget.target) * 100))
   );
   const { activeShift, latestClosedShift } = getLatestShiftSummary();
+  const events = getEventFeed();
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
@@ -208,6 +210,33 @@ export default function Home() {
 
           <div className="mt-5 h-4 overflow-hidden rounded-full bg-zinc-950">
             <div className="h-full rounded-full bg-emerald-500" style={{ width: `${weeklyProgress}%` }} />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="text-sm uppercase tracking-wide text-zinc-500">
+            Business Event Feed
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {events.length > 0 ? (
+              events.map((event) => (
+                <div key={event.id} className="rounded-xl bg-zinc-950 p-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="font-semibold">{event.title}</div>
+                    <div className="text-xs text-zinc-500">
+                      {new Date(event.createdAt).toLocaleString()}
+                    </div>
+                  </div>
+
+                  {event.detail && (
+                    <p className="mt-2 text-sm text-zinc-400">{event.detail}</p>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="text-zinc-400">No business events recorded yet.</p>
+            )}
           </div>
         </section>
 

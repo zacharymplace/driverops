@@ -1,4 +1,5 @@
 import type { Shift } from "@/types/shifts";
+import { recordEvent } from "@/lib/storage/events";
 
 const KEY = "driverops.shifts";
 
@@ -46,6 +47,12 @@ export function startShift(platform: Shift["platform"], startOdometer?: number):
 
   saveShifts([shift, ...shifts]);
 
+  recordEvent({
+    type: "SHIFT_STARTED",
+    title: "Shift started",
+    detail: `${platform} shift began.`,
+  });
+
   return shift;
 }
 
@@ -57,6 +64,12 @@ export function closeShift(updatedShift: Shift): Shift {
   );
 
   saveShifts(next);
+
+  recordEvent({
+    type: "SHIFT_CLOSED",
+    title: "Shift closed",
+    detail: `Net profit recorded: $${(updatedShift.netProfit ?? 0).toFixed(2)}.`,
+  });
 
   return updatedShift;
 }

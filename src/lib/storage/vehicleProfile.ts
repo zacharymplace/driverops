@@ -1,4 +1,5 @@
 import type { VehicleProfile } from "@/types/driverops";
+import { recordEvent } from "@/lib/storage/events";
 
 export const DEFAULT_VEHICLE_PROFILE: VehicleProfile = {
   monthlyPayment: 450,
@@ -27,5 +28,10 @@ export function loadVehicleProfile(): VehicleProfile {
 
 export function saveVehicleProfile(profile: VehicleProfile) {
   window.localStorage.setItem(KEY, JSON.stringify(profile));
+  recordEvent({
+    type: "VEHICLE_PROFILE_UPDATED",
+    title: "Vehicle profile updated",
+    detail: "Operating cost assumptions were saved.",
+  });
   window.dispatchEvent(new Event("driverops:state-change"));
 }
