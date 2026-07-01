@@ -13,40 +13,83 @@ export function evaluateDriveRules(
   input: RuleInput
 ): RuleDecision {
   const reasons: string[] = [];
+  const checks: RuleDecision["checks"] = [];
   let score = 0;
 
-  if (input.estimatedNetPerHour >= rules.minimumNetPerHour) {
+  const hourlyPassed = input.estimatedNetPerHour >= rules.minimumNetPerHour;
+  checks.push({
+    label: "Net / Hour",
+    actual: `$${input.estimatedNetPerHour.toFixed(2)}`,
+    threshold: `≥ $${rules.minimumNetPerHour.toFixed(2)}`,
+    passed: hourlyPassed,
+  });
+
+  if (hourlyPassed) {
     score += 30;
     reasons.push("Estimated net per hour clears your minimum threshold.");
   } else {
     reasons.push("Estimated net per hour is below your minimum threshold.");
   }
 
-  if (input.estimatedNetPerMile >= rules.minimumNetPerMile) {
+  const milePassed = input.estimatedNetPerMile >= rules.minimumNetPerMile;
+  checks.push({
+    label: "Net / Mile",
+    actual: `$${input.estimatedNetPerMile.toFixed(2)}`,
+    threshold: `≥ $${rules.minimumNetPerMile.toFixed(2)}`,
+    passed: milePassed,
+  });
+
+  if (milePassed) {
     score += 25;
     reasons.push("Estimated net per mile clears your minimum threshold.");
   } else {
     reasons.push("Estimated net per mile is below your minimum threshold.");
   }
 
-  if (input.estimatedDailyNet >= rules.targetDailyNet) {
+  const dailyPassed = input.estimatedDailyNet >= rules.targetDailyNet;
+  checks.push({
+    label: "Daily Net",
+    actual: `$${input.estimatedDailyNet.toFixed(2)}`,
+    threshold: `≥ $${rules.targetDailyNet.toFixed(2)}`,
+    passed: dailyPassed,
+  });
+
+  if (dailyPassed) {
     score += 25;
     reasons.push("Expected daily net meets your target.");
   } else {
     reasons.push("Expected daily net is below your target.");
   }
 
-  if (input.fuelPricePerGallon <= rules.maxFuelPricePerGallon) {
+  const fuelPassed = input.fuelPricePerGallon <= rules.maxFuelPricePerGallon;
+  checks.push({
+    label: "Fuel Price",
+    actual: `$${input.fuelPricePerGallon.toFixed(2)}`,
+    threshold: `≤ $${rules.maxFuelPricePerGallon.toFixed(2)}`,
+    passed: fuelPassed,
+  });
+
+  if (fuelPassed) {
     score += 10;
     reasons.push("Fuel price is within your allowed range.");
   } else {
     reasons.push("Fuel price is above your preferred limit.");
   }
 
-  if (
+  const windowPassed =
     input.currentHour >= rules.preferredStartHour &&
-    input.currentHour <= rules.latestStartHour
-  ) {
+    input.currentHour <= rules.latestStartHour;
+
+  checks.push({
+    label: "Time Window",
+    actual: formatHour(input.currentHour),
+    threshold: `${formatHour(rules.preferredStartHour)}–${formatHour(
+      rules.latestStartHour
+    )}`,
+    passed: windowPassed,
+  });
+
+  if (windowPassed) {
     score += 10;
     reasons.push("Current time is inside your preferred work window.");
   } else if (input.currentHour < rules.preferredStartHour) {
@@ -67,5 +110,6 @@ export function evaluateDriveRules(
     expectedNet: input.estimatedDailyNet,
     recommendedStart: formatHour(rules.preferredStartHour),
     reasons,
+    checks,
   };
 }

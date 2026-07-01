@@ -138,13 +138,48 @@ export default function Home() {
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">
-                    Reason
+                    Rule Checks
                   </div>
-                  <ul className="mt-4 space-y-2 text-zinc-300">
-                    {recommendation.reasons.map((reason) => (
-                      <li key={reason}>{reason}</li>
+
+                  <div className="mt-4 grid gap-3">
+                    {recommendation.checks.map((check) => (
+                      <div
+                        key={check.label}
+                        className="grid gap-3 rounded-lg border border-zinc-800 p-4 md:grid-cols-[1fr_1fr_1fr_auto]"
+                      >
+                        <div>
+                          <div className="text-xs uppercase tracking-wide text-zinc-500">
+                            Rule
+                          </div>
+                          <div className="mt-1 font-semibold">{check.label}</div>
+                        </div>
+
+                        <div>
+                          <div className="text-xs uppercase tracking-wide text-zinc-500">
+                            Actual
+                          </div>
+                          <div className="mt-1">{check.actual}</div>
+                        </div>
+
+                        <div>
+                          <div className="text-xs uppercase tracking-wide text-zinc-500">
+                            Threshold
+                          </div>
+                          <div className="mt-1">{check.threshold}</div>
+                        </div>
+
+                        <div
+                          className={
+                            check.passed
+                              ? "font-bold text-emerald-400"
+                              : "font-bold text-red-400"
+                          }
+                        >
+                          {check.passed ? "PASS" : "MISS"}
+                        </div>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </>
             )}

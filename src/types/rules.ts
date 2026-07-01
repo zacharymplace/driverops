@@ -17,10 +17,18 @@ export type RuleInput = {
   currentHour: number;
 };
 
+export type RuleCheck = {
+  label: string;
+  actual: string;
+  threshold: string;
+  passed: boolean;
+};
+
 export type RuleDecision = {
   status: RecommendationStatus;
   confidence: number;
   expectedNet: number;
   recommendedStart: string;
   reasons: string[];
+  checks: RuleCheck[];
 };
