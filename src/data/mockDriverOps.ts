@@ -45,6 +45,11 @@ export const actions = [
     description: "Edit recommendation thresholds and operating rules.",
   },
   {
+    title: "Inputs",
+    href: "/inputs",
+    description: "Edit live market and earnings estimates.",
+  },
+  {
     title: "Business Health",
     href: "/scorecard",
     description: "Review profit, taxes, and performance.",
