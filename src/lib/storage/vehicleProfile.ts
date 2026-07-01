@@ -27,4 +27,5 @@ export function loadVehicleProfile(): VehicleProfile {
 
 export function saveVehicleProfile(profile: VehicleProfile) {
   window.localStorage.setItem(KEY, JSON.stringify(profile));
+  window.dispatchEvent(new Event("driverops:state-change"));
 }
