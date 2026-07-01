@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:finance": "node --test --experimental-strip-types src/lib/scoring/scoreShift.test.mjs",
-    "test": "npm run test:finance"
+    "test": "npm run test:finance",
+    "check": "npm run lint && npm test"
   },
   "dependencies": {
     "next": "16.2.9",
