@@ -13,10 +13,17 @@ import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
 import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommendation";
+import {
+  getShiftHistoryAverages,
+  MINIMUM_HISTORY_SHIFTS,
+} from "@/lib/recommendations/historyAverages";
 import { getRecommendationSource } from "@/lib/recommendations/source";
 
 export default function Home() {
   const recommendation = getDriveRecommendation();
+  const historyAverages = getShiftHistoryAverages();
+  const historyReady =
+    historyAverages.closedShiftCount >= MINIMUM_HISTORY_SHIFTS;
   const recommendationSource = getRecommendationSource();
   const businessHealth = getBusinessHealth();
   const weeklyTarget = getWeeklyTarget();
@@ -273,6 +280,50 @@ export default function Home() {
 
           <div className="mt-5 h-4 overflow-hidden rounded-full bg-zinc-950">
             <div className="h-full rounded-full bg-emerald-500" style={{ width: `${weeklyProgress}%` }} />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <div className="text-sm uppercase tracking-wide text-zinc-500">
+                Shift History Signal
+              </div>
+
+              <p className="mt-2 text-zinc-400">
+                DriverOps starts using real shift averages after{" "}
+                {MINIMUM_HISTORY_SHIFTS} closed shifts.
+              </p>
+            </div>
+
+            <div
+              className={
+                historyReady
+                  ? "rounded-xl bg-emerald-950 px-4 py-3 text-sm font-bold text-emerald-300"
+                  : "rounded-xl bg-zinc-950 px-4 py-3 text-sm font-bold text-yellow-300"
+              }
+            >
+              {historyReady ? "History Active" : "Collecting"}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            <Metric
+              label="Closed Shifts"
+              value={`${historyAverages.closedShiftCount}/${MINIMUM_HISTORY_SHIFTS}`}
+            />
+            <Metric
+              label="Avg Net / Hour"
+              value={formatMoney(historyAverages.averageNetPerHour)}
+            />
+            <Metric
+              label="Avg Net / Mile"
+              value={formatMoney(historyAverages.averageNetPerMile)}
+            />
+            <Metric
+              label="Avg Daily Net"
+              value={formatMoney(historyAverages.averageDailyNet)}
+            />
           </div>
         </section>
 
