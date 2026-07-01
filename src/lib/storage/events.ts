@@ -2,10 +2,16 @@ import type { BusinessEvent } from "@/types/events";
 
 const KEY = "driverops.events";
 
-export function loadEvents(): BusinessEvent[] {
-  if (typeof window === "undefined") return [];
+function getStorage() {
+  return globalThis.localStorage ?? null;
+}
 
-  const raw = window.localStorage.getItem(KEY);
+
+export function loadEvents(): BusinessEvent[] {
+  const storage = getStorage();
+  if (!storage) return [];
+
+  const raw = storage.getItem(KEY);
   if (!raw) return [];
 
   try {

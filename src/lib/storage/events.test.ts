@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { beforeEach, test } from "node:test";
 
-import { getRecentEvents, loadEvents, recordEvent } from "./events";
+import { getRecentEvents, loadEvents, recordEvent, saveEvents } from "./events";
 
 class LocalStorageMock {
   private store = new Map<string, string>();
@@ -55,4 +55,11 @@ test("getRecentEvents limits event results", () => {
   }
 
   assert.equal(getRecentEvents(3).length, 3);
+});
+
+
+test("loadEvents returns an empty array when stored JSON is invalid", () => {
+  globalThis.localStorage.setItem("driverops.events", "{bad-json");
+
+  assert.deepEqual(loadEvents(), []);
 });
