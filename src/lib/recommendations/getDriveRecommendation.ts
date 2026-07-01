@@ -1,4 +1,5 @@
 import { evaluateDriveRules } from "@/lib/rules/evaluateDriveRules";
+import { applyHistoryToRecommendationInputs } from "@/lib/recommendations/historyAverages";
 import { loadRecommendationInputs } from "@/lib/storage/recommendationInputs";
 import { loadDriverRules } from "@/lib/storage/rules";
 import { loadVehicleProfile } from "@/lib/storage/vehicleProfile";
@@ -9,7 +10,7 @@ export type DriveRecommendation = RuleDecision;
 export function getDriveRecommendation(): DriveRecommendation {
   const rules = loadDriverRules();
   const vehicle = loadVehicleProfile();
-  const inputs = loadRecommendationInputs();
+  const inputs = applyHistoryToRecommendationInputs(loadRecommendationInputs());
 
   const currentHour = new Date().getHours();
 
