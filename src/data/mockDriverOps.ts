@@ -40,6 +40,11 @@ export const actions = [
     description: "Manage operating costs and assumptions.",
   },
   {
+    title: "Rules",
+    href: "/rules",
+    description: "Edit recommendation thresholds and operating rules.",
+  },
+  {
     title: "Business Health",
     href: "/scorecard",
     description: "Review profit, taxes, and performance.",

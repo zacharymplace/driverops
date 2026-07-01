@@ -8,11 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "test:finance": "tsx --test src/lib/scoring/scoreShift.test.ts",
-    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules",
+    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules && npm run test:rules-storage",
     "check": "npm run lint && npm test",
     "test:events": "tsx --test src/lib/storage/events.test.ts",
     "test:validation": "tsx --test src/lib/validation/shiftCloseout.test.ts",
-    "test:rules": "tsx --test src/lib/rules/evaluateDriveRules.test.ts"
+    "test:rules": "tsx --test src/lib/rules/evaluateDriveRules.test.ts",
+    "test:rules-storage": "tsx --test src/lib/storage/rules.test.ts"
   },
   "dependencies": {
     "next": "16.2.9",
