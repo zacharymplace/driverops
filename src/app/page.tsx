@@ -13,9 +13,11 @@ import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
 import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommendation";
+import { getRecommendationSource } from "@/lib/recommendations/source";
 
 export default function Home() {
   const recommendation = getDriveRecommendation();
+  const recommendationSource = getRecommendationSource();
   const businessHealth = getBusinessHealth();
   const weeklyTarget = getWeeklyTarget();
   const shiftMetrics = getShiftMetrics();
@@ -134,6 +136,32 @@ export default function Home() {
                   <Metric label="Confidence" value={`${recommendation.confidence}%`} />
                   <Metric label="Expected Net" value={formatMoney(recommendation.expectedNet)} />
                   <Metric label="Recommended Start" value={recommendation.recommendedStart} />
+                </div>
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    Recommendation Source
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-3">
+                    <Metric label="Source" value={recommendationSource.source} />
+                    <Metric
+                      label="Closed Shifts"
+                      value={String(recommendationSource.shiftHistoryCount)}
+                    />
+                    <Metric
+                      label="Inputs"
+                      value={
+                        recommendationSource.inputsConfigured
+                          ? "Custom"
+                          : "Default"
+                      }
+                    />
+                  </div>
+
+                  <p className="mt-4 text-sm text-zinc-400">
+                    {recommendationSource.description}
+                  </p>
                 </div>
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
