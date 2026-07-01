@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { beforeEach, test } from "node:test";
 
-import { getRecentEvents, loadEvents, recordEvent, saveEvents } from "./events";
+import { getRecentEvents, loadEvents, recordEvent } from "./events";
 
 class LocalStorageMock {
   private store = new Map<string, string>();
