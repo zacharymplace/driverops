@@ -4,6 +4,11 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import { scoreShift } from "@/lib/scoring/scoreShift";
+import {
+  formatMetric,
+  getShiftDurationMinutes,
+  isReliableHourlyRate,
+} from "@/lib/finance/profitGuards";
 import { getActiveShift, closeShift } from "@/engine/shift";
 import { loadVehicleProfile } from "@/lib/storage/vehicleProfile";
 import type { Shift } from "@/types/shifts";
@@ -98,10 +103,19 @@ export default function CloseoutPage() {
 
           <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
             <SummaryRow label="Net Profit" value={closedShift.netProfit} money />
-            <SummaryRow label="Net / Hour" value={closedShift.netPerHour} money />
+            <SummaryRow
+              label="Net / Hour"
+              value={
+                isReliableHourlyRate(
+                  getShiftDurationMinutes(closedShift.startedAt, closedShift.endedAt)
+                )
+                  ? formatMetric(closedShift.netPerHour, { money: true })
+                  : "Collecting data"
+              }
+            />
             <SummaryRow label="Net / Mile" value={closedShift.netPerMile} money />
-            <SummaryRow label="Tax Reserve" value={closedShift.taxReserve} money />
-            <SummaryRow label="Vehicle Reserve" value={closedShift.vehicleReserve} money />
+            <SummaryRow label="Estimated Taxes" value={formatMetric(closedShift.taxReserve, { money: true })} />
+            <SummaryRow label="Vehicle Wear" value={formatMetric(closedShift.vehicleReserve, { money: true })} />
           </section>
 
           <Link
@@ -169,10 +183,19 @@ export default function CloseoutPage() {
 
               <div className="mt-4 grid gap-3">
                 <SummaryRow label="Estimated Net Profit" value={liveScore.netProfit} money />
-                <SummaryRow label="Net / Hour" value={liveScore.netPerHour} money />
+                <SummaryRow
+                  label="Net / Hour"
+                  value={
+                    isReliableHourlyRate(
+                      getShiftDurationMinutes(activeShift.startedAt)
+                    )
+                      ? formatMetric(liveScore.netPerHour, { money: true })
+                      : "Collecting data"
+                  }
+                />
                 <SummaryRow label="Net / Mile" value={liveScore.netPerMile} money />
-                <SummaryRow label="Tax Reserve" value={liveScore.taxReserve} money />
-                <SummaryRow label="Vehicle Reserve" value={liveScore.vehicleReserve} money />
+                <SummaryRow label="Estimated Taxes" value={formatMetric(liveScore.taxReserve, { money: true })} />
+                <SummaryRow label="Vehicle Wear" value={formatMetric(liveScore.vehicleReserve, { money: true })} />
               </div>
             </section>
           )}
@@ -218,15 +241,17 @@ function SummaryRow({
   money = false,
 }: {
   label: string;
-  value?: number;
+  value?: number | string;
   money?: boolean;
 }) {
   const display =
-    typeof value === "number"
-      ? money
-        ? `$${value.toFixed(2)}`
-        : value.toFixed(2)
-      : "—";
+    typeof value === "string"
+      ? value
+      : typeof value === "number"
+        ? money
+          ? `$${value.toFixed(2)}`
+          : value.toFixed(2)
+        : "—";
 
   return (
     <div className="flex items-center justify-between border-b border-zinc-800 py-3 last:border-b-0">

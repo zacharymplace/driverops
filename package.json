@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:finance": "node --test --experimental-strip-types src/lib/scoring/scoreShift.test.mjs",
+    "test": "npm run test:finance"
   },
   "dependencies": {
     "next": "16.2.9",
