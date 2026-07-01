@@ -16,7 +16,7 @@ import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommenda
 export default function Home() {
   const recommendation = getDriveRecommendation();
   const businessHealth = getBusinessHealth();
-  const weeklyTarget = getWeeklyTarget();
+  const weeklyTarget = getWeeklyTarget();\n  const weeklyProgress = Math.min(100, Math.max(0, Math.round((shiftMetrics.weeklyProfit / weeklyTarget.target) * 100)));
   const shiftMetrics = getShiftMetrics();
   const { activeShift, latestClosedShift } = getLatestShiftSummary();
 
@@ -198,12 +198,12 @@ export default function Home() {
               </div>
             </div>
             <div className="text-2xl font-bold text-emerald-400">
-              {weeklyTarget.percent}%
+              {weeklyProgress}%
             </div>
           </div>
 
           <div className="mt-5 h-4 overflow-hidden rounded-full bg-zinc-950">
-            <div className="h-full w-[67%] rounded-full bg-emerald-500" />
+            <div className="h-full rounded-full bg-emerald-500" style={{ width: `${weeklyProgress}%` }} />
           </div>
         </section>
 

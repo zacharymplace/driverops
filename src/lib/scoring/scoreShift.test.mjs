@@ -28,3 +28,32 @@ test("scoreShift calculates positive net margin", async () => {
   assert.equal(Number(result.netPerHour.toFixed(2)), 16.4);
   assert.equal(Number(result.netPerMile.toFixed(2)), 0.84);
 });
+
+
+test("scoreShift estimates fuel when fuelSpent is omitted", async () => {
+  const { scoreShift } = await import("./scoreShift.ts");
+
+  const result = scoreShift(vehicle, {
+    grossEarned: 120,
+    milesDriven: 100,
+    hoursOnline: 4,
+    otherExpenses: 0,
+  });
+
+  assert.equal(Number(result.netProfit.toFixed(2)), 51.5);
+});
+
+test("scoreShift handles zero hours and zero miles safely", async () => {
+  const { scoreShift } = await import("./scoreShift.ts");
+
+  const result = scoreShift(vehicle, {
+    grossEarned: 0,
+    milesDriven: 0,
+    hoursOnline: 0,
+    otherExpenses: 0,
+  });
+
+  assert.equal(result.netPerHour, 0);
+  assert.equal(result.netPerMile, 0);
+  assert.equal(result.netProfit, 0);
+});
