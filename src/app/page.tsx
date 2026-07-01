@@ -16,8 +16,12 @@ import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommenda
 export default function Home() {
   const recommendation = getDriveRecommendation();
   const businessHealth = getBusinessHealth();
-  const weeklyTarget = getWeeklyTarget();\n  const weeklyProgress = Math.min(100, Math.max(0, Math.round((shiftMetrics.weeklyProfit / weeklyTarget.target) * 100)));
+  const weeklyTarget = getWeeklyTarget();
   const shiftMetrics = getShiftMetrics();
+  const weeklyProgress = Math.min(
+    100,
+    Math.max(0, Math.round((shiftMetrics.weeklyProfit / weeklyTarget.target) * 100))
+  );
   const { activeShift, latestClosedShift } = getLatestShiftSummary();
 
   return (

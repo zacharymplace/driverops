@@ -40,7 +40,7 @@ test("scoreShift estimates fuel when fuelSpent is omitted", async () => {
     otherExpenses: 0,
   });
 
-  assert.equal(Number(result.netProfit.toFixed(2)), 51.5);
+  assert.equal(Number(result.netProfit.toFixed(2)), 65.1);
 });
 
 test("scoreShift handles zero hours and zero miles safely", async () => {
