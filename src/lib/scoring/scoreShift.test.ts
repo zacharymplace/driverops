@@ -12,7 +12,7 @@ const vehicle = {
 };
 
 test("scoreShift calculates positive net margin", async () => {
-  const { scoreShift } = await import("./scoreShift.ts");
+  const { scoreShift } = await import("./scoreShift");
 
   const result = scoreShift(vehicle, {
     grossEarned: 120,
@@ -31,7 +31,7 @@ test("scoreShift calculates positive net margin", async () => {
 
 
 test("scoreShift estimates fuel when fuelSpent is omitted", async () => {
-  const { scoreShift } = await import("./scoreShift.ts");
+  const { scoreShift } = await import("./scoreShift");
 
   const result = scoreShift(vehicle, {
     grossEarned: 120,
@@ -44,7 +44,7 @@ test("scoreShift estimates fuel when fuelSpent is omitted", async () => {
 });
 
 test("scoreShift handles zero hours and zero miles safely", async () => {
-  const { scoreShift } = await import("./scoreShift.ts");
+  const { scoreShift } = await import("./scoreShift");
 
   const result = scoreShift(vehicle, {
     grossEarned: 0,

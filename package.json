@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:finance": "node --test --experimental-strip-types src/lib/scoring/scoreShift.test.mjs",
+    "test:finance": "tsx --test src/lib/scoring/scoreShift.test.ts",
     "test": "npm run test:finance",
     "check": "npm run lint && npm test"
   },
@@ -24,6 +24,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
+    "tsx": "4.22.4",
     "typescript": "^5"
   }
 }
