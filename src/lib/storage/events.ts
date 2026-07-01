@@ -16,8 +16,13 @@ export function loadEvents(): BusinessEvent[] {
 }
 
 export function saveEvents(events: BusinessEvent[]) {
-  window.localStorage.setItem(KEY, JSON.stringify(events));
-  window.dispatchEvent(new Event("driverops:state-change"));
+  if (typeof localStorage === "undefined") return;
+
+  localStorage.setItem(KEY, JSON.stringify(events));
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("driverops:state-change"));
+  }
 }
 
 export function recordEvent(event: Omit<BusinessEvent, "id" | "createdAt">) {

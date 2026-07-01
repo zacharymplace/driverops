@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "test:finance": "tsx --test src/lib/scoring/scoreShift.test.ts",
-    "test": "npm run test:finance",
-    "check": "npm run lint && npm test"
+    "test": "npm run test:finance && npm run test:events && npm run test:validation",
+    "check": "npm run lint && npm test",
+    "test:events": "tsx --test src/lib/storage/events.test.ts",
+    "test:validation": "tsx --test src/lib/validation/shiftCloseout.test.ts"
   },
   "dependencies": {
     "next": "16.2.9",

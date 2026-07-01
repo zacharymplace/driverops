@@ -11,6 +11,7 @@ import {
 } from "@/lib/finance/profitGuards";
 import { getActiveShift, closeShift } from "@/engine/shift";
 import { loadVehicleProfile } from "@/lib/storage/vehicleProfile";
+import { validateShiftCloseout } from "@/lib/validation/shiftCloseout";
 import type { Shift } from "@/types/shifts";
 
 export default function CloseoutPage() {
@@ -25,6 +26,7 @@ export default function CloseoutPage() {
   const [otherExpenses, setOtherExpenses] = useState("0");
   const [notes, setNotes] = useState("");
   const [closedShift, setClosedShift] = useState<Shift | undefined>();
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [previewedAt] = useState(() => Date.now());
 
   const calculatedMiles = useMemo(() => {
@@ -70,6 +72,15 @@ export default function CloseoutPage() {
       fuelSpent: fuelSpent ? Number(fuelSpent) : undefined,
       otherExpenses: Number(otherExpenses),
     };
+
+    const validation = validateShiftCloseout(shiftInput);
+
+    if (!validation.valid) {
+      setValidationErrors(validation.errors);
+      return;
+    }
+
+    setValidationErrors([]);
 
     const score = scoreShift(vehicle, shiftInput);
 
@@ -198,6 +209,20 @@ export default function CloseoutPage() {
                 <SummaryRow label="Vehicle Wear" value={formatMetric(liveScore.vehicleReserve, { money: true })} />
               </div>
             </section>
+          )}
+
+          {validationErrors.length > 0 && (
+            <div className="mt-6 rounded-xl border border-red-900 bg-red-950/40 p-5">
+              <div className="font-semibold text-red-300">
+                Closeout needs attention
+              </div>
+
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-red-200">
+                {validationErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <button
