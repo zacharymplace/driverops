@@ -20,11 +20,34 @@ export default function CloseoutPage() {
   const [otherExpenses, setOtherExpenses] = useState("0");
   const [notes, setNotes] = useState("");
   const [closedShift, setClosedShift] = useState<Shift | undefined>();
+  const [previewedAt] = useState(() => Date.now());
 
   const calculatedMiles = useMemo(() => {
     if (!activeShift?.startOdometer || !endOdometer) return milesDriven;
     return String(Number(endOdometer) - activeShift.startOdometer);
-  }, [activeShift?.startOdometer, endOdometer, milesDriven]);
+  }, [activeShift, endOdometer, milesDriven]);
+
+  const liveScore = useMemo(() => {
+    if (!activeShift) return undefined;
+
+    const gross = Number(grossEarned);
+    const miles = Number(calculatedMiles);
+    const expenses = Number(otherExpenses);
+
+    if (!Number.isFinite(gross) || !Number.isFinite(miles)) return undefined;
+
+    return scoreShift(loadVehicleProfile(), {
+      grossEarned: gross,
+      milesDriven: miles,
+      hoursOnline:
+        (previewedAt - new Date(activeShift.startedAt).getTime()) /
+        1000 /
+        60 /
+        60,
+      fuelSpent: fuelSpent ? Number(fuelSpent) : undefined,
+      otherExpenses: Number.isFinite(expenses) ? expenses : 0,
+    });
+  }, [activeShift, calculatedMiles, fuelSpent, grossEarned, otherExpenses, previewedAt]);
 
   function submitCloseout() {
     if (!activeShift) return;
@@ -137,6 +160,22 @@ export default function CloseoutPage() {
               className="min-h-28 rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-white outline-none"
             />
           </label>
+
+          {liveScore && (
+            <section className="mt-6 rounded-xl bg-zinc-950 p-5">
+              <div className="text-sm uppercase tracking-wide text-zinc-500">
+                Live Profit Preview
+              </div>
+
+              <div className="mt-4 grid gap-3">
+                <SummaryRow label="Estimated Net Profit" value={liveScore.netProfit} money />
+                <SummaryRow label="Net / Hour" value={liveScore.netPerHour} money />
+                <SummaryRow label="Net / Mile" value={liveScore.netPerMile} money />
+                <SummaryRow label="Tax Reserve" value={liveScore.taxReserve} money />
+                <SummaryRow label="Vehicle Reserve" value={liveScore.vehicleReserve} money />
+              </div>
+            </section>
+          )}
 
           <button
             onClick={submitCloseout}

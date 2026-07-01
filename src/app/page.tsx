@@ -7,6 +7,7 @@ import {
   dashboardKpis,
 } from "@/data/mockDriverOps";
 import { getBusinessHealth } from "@/lib/analytics/businessHealth";
+import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
 import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommendation";
@@ -15,6 +16,7 @@ export default function Home() {
   const recommendation = getDriveRecommendation();
   const businessHealth = getBusinessHealth();
   const weeklyTarget = getWeeklyTarget();
+  const shiftMetrics = getShiftMetrics();
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
@@ -93,10 +95,10 @@ export default function Home() {
         </section>
 
         <section className="mt-8 grid gap-6 md:grid-cols-4">
-          <DashboardMetric title="Weekly Profit" value="$842" subtitle="Target $1,250" />
-          <DashboardMetric title="Net / Hour" value="$28.40" subtitle="Above Goal" />
+          <DashboardMetric title="Weekly Profit" value={formatMoney(shiftMetrics.weeklyProfit)} subtitle="Target $1,250" />
+          <DashboardMetric title="Net / Hour" value={formatMoney(shiftMetrics.averageNetPerHour)} subtitle="Above Goal" />
           <DashboardMetric title="Vehicle ROI" value="87%" subtitle="Healthy" />
-          <DashboardMetric title="Tax Reserve" value="$214" subtitle="Saved" />
+          <DashboardMetric title="Tax Reserve" value={formatMoney(shiftMetrics.weeklyTaxReserve)} subtitle="Saved" />
         </section>
 
         <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
