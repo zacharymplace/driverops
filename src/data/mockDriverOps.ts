@@ -50,6 +50,11 @@ export const actions = [
     description: "Edit live market and earnings estimates.",
   },
   {
+    title: "Dev Tools",
+    href: "/dev",
+    description: "Seed local test data for Hybrid mode.",
+  },
+  {
     title: "Business Health",
     href: "/scorecard",
     description: "Review profit, taxes, and performance.",
