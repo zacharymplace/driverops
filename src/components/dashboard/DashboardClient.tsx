@@ -20,6 +20,7 @@ import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
 import { getForecastSet } from "@/lib/recommendations/forecasts";
 import { getEvidenceSummary } from "@/lib/evidence/evidenceEngine";
 import { getPolicyResult } from "@/lib/policy/getPolicyResult";
+import { getSimulationSet } from "@/lib/simulation/simulationEngine";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -48,6 +49,7 @@ export function DashboardClient() {
   const forecastSet = getForecastSet();
   const evidence = getEvidenceSummary();
   const policy = getPolicyResult();
+  const simulations = getSimulationSet();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -166,6 +168,61 @@ export function DashboardClient() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    Simulations
+                  </div>
+
+                  <div className="mt-4 grid gap-3">
+                    {[simulations.baseline, ...simulations.scenarios].map((simulation) => (
+                      <div
+                        key={simulation.scenarioId}
+                        className="rounded-lg border border-zinc-800 p-4"
+                      >
+                        <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                          <div>
+                            <div className="font-semibold">{simulation.label}</div>
+                            <div className="mt-1 text-sm text-zinc-400">
+                              {simulation.rationale[0]}
+                            </div>
+                          </div>
+
+                          <div
+                            className={
+                              simulation.recommendation === "FAVORABLE"
+                                ? "font-bold text-emerald-400"
+                                : simulation.recommendation === "BLOCKED"
+                                  ? "font-bold text-red-400"
+                                  : "font-bold text-yellow-300"
+                            }
+                          >
+                            {simulation.recommendation}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 grid gap-3 md:grid-cols-4">
+                          <Metric
+                            label="Expected Net"
+                            value={formatMoney(simulation.expectedNet)}
+                          />
+                          <Metric
+                            label="Net / Hour"
+                            value={formatMoney(simulation.expectedNetPerHour)}
+                          />
+                          <Metric
+                            label="Confidence"
+                            value={`${simulation.confidence}%`}
+                          />
+                          <Metric
+                            label="Policy Issues"
+                            value={String(simulation.policyViolations)}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
