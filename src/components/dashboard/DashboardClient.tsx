@@ -19,6 +19,7 @@ import { getActionOptions } from "@/lib/recommendations/actionOptions";
 import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
 import { getForecastSet } from "@/lib/recommendations/forecasts";
 import { getEvidenceSummary } from "@/lib/evidence/evidenceEngine";
+import { getPolicyResult } from "@/lib/policy/getPolicyResult";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -46,6 +47,7 @@ export function DashboardClient() {
   const actionOptions = getActionOptions();
   const forecastSet = getForecastSet();
   const evidence = getEvidenceSummary();
+  const policy = getPolicyResult();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -164,6 +166,58 @@ export function DashboardClient() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                    <div>
+                      <div className="text-xs uppercase tracking-wide text-zinc-500">
+                        Policy
+                      </div>
+                      <div className="mt-2 text-2xl font-bold">
+                        {policy.allowed ? "Allowed" : "Blocked"}
+                      </div>
+                    </div>
+
+                    <div
+                      className={
+                        policy.allowed
+                          ? "rounded-xl bg-emerald-950 px-4 py-3 text-sm font-bold text-emerald-300"
+                          : "rounded-xl bg-red-950 px-4 py-3 text-sm font-bold text-red-300"
+                      }
+                    >
+                      {policy.violations.length} issue
+                      {policy.violations.length === 1 ? "" : "s"}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 space-y-3">
+                    {policy.violations.length > 0 ? (
+                      policy.violations.map((violation) => (
+                        <div
+                          key={violation.ruleId}
+                          className="rounded-lg border border-zinc-800 p-4"
+                        >
+                          <div
+                            className={
+                              violation.severity === "BLOCKER"
+                                ? "font-semibold text-red-400"
+                                : "font-semibold text-yellow-300"
+                            }
+                          >
+                            {violation.label} · {violation.severity}
+                          </div>
+                          <p className="mt-1 text-sm text-zinc-400">
+                            {violation.detail}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-zinc-400">
+                        No policy violations detected.
+                      </p>
+                    )}
+                  </div>
+                </div>
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">
