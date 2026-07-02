@@ -11,3 +11,11 @@ MVP:
 - Daily closeout
 - Net profit scorecard
 - Drive / wait / don't drive recommendation
+
+## Architecture freeze
+
+DriverOps is frozen for pre-operations alpha validation.
+
+The current priority is validating the existing operating system against real or realistic usage, not adding new engines or conceptual layers.
+
+See `docs/architecture/freeze.md` for allowed changes, blocked changes, and unfreeze criteria.
