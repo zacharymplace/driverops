@@ -15,7 +15,7 @@ import { getLatestShiftSummary } from "@/lib/analytics/latestShiftSummary";
 import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
-import { getDriveRecommendation } from "@/lib/recommendations/getDriveRecommendation";
+import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -39,7 +39,8 @@ export function DashboardClient() {
     };
   }, []);
 
-  const recommendation = getDriveRecommendation();
+  const decision = getDecisionSnapshot();
+  const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
   const historyReady =
@@ -109,51 +110,54 @@ export function DashboardClient() {
                   <Metric label="Next Step" value="Closeout" />
                 </div>
               </>
-            ) : latestClosedShift ? (
-              <>
-                <div className="text-sm uppercase tracking-wider text-zinc-500">
-                  Latest Result
-                </div>
-                <div className="mt-5 text-6xl font-bold text-emerald-400">
-                  {formatMoney(latestClosedShift.netProfit ?? 0)}
-                </div>
-                <p className="mt-5 max-w-2xl text-zinc-400">
-                  Last closed shift from{" "}
-                  {new Date(latestClosedShift.startedAt).toLocaleString()}.
-                  Dashboard metrics now reflect saved shift history.
-                </p>
-                <div className="mt-8 grid gap-4 md:grid-cols-3">
-                  <Metric
-                    label="Net / Hour"
-                    value={formatMoney(latestClosedShift.netPerHour ?? 0)}
-                  />
-                  <Metric
-                    label="Net / Mile"
-                    value={formatMoney(latestClosedShift.netPerMile ?? 0)}
-                  />
-                  <Metric
-                    label="Tax Reserve"
-                    value={formatMoney(latestClosedShift.taxReserve ?? 0)}
-                  />
-                </div>
-              </>
             ) : (
               <>
                 <div className="text-sm uppercase tracking-wider text-zinc-500">
-                  Decision
+                  Recommendation
                 </div>
+
                 <div className="mt-5 text-7xl font-bold text-yellow-400">
                   {recommendation.status}
                 </div>
+
                 <p className="mt-5 max-w-2xl text-zinc-400">
-                  Current demand is below your profitability threshold.
-                  Estimated best departure time is {recommendation.recommendedStart}.
+                  {decision.headline} Estimated best departure time is{" "}
+                  {recommendation.recommendedStart}.
                 </p>
-                <div className="mt-8 grid gap-4 md:grid-cols-3">
+
+                <div className="mt-8 grid gap-4 md:grid-cols-4">
                   <Metric label="Confidence" value={`${recommendation.confidence}%`} />
+                  <Metric label="Confidence Band" value={decision.confidenceLabel} />
                   <Metric label="Expected Net" value={formatMoney(recommendation.expectedNet)} />
                   <Metric label="Recommended Start" value={recommendation.recommendedStart} />
                 </div>
+
+                {latestClosedShift && (
+                  <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                    <div className="text-xs uppercase tracking-wide text-zinc-500">
+                      Latest Result
+                    </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-4">
+                      <Metric
+                        label="Net Profit"
+                        value={formatMoney(latestClosedShift.netProfit ?? 0)}
+                      />
+                      <Metric
+                        label="Net / Hour"
+                        value={formatMoney(latestClosedShift.netPerHour ?? 0)}
+                      />
+                      <Metric
+                        label="Net / Mile"
+                        value={formatMoney(latestClosedShift.netPerMile ?? 0)}
+                      />
+                      <Metric
+                        label="Tax Reserve"
+                        value={formatMoney(latestClosedShift.taxReserve ?? 0)}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">
