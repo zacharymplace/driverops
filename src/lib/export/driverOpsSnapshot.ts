@@ -3,6 +3,7 @@ import { loadEvents } from "@/lib/storage/events";
 import { loadExecutionPlan } from "@/lib/storage/execution";
 import { loadExperimentResults, loadExperiments } from "@/lib/storage/experiments";
 import { loadRecommendationInputs } from "@/lib/storage/recommendationInputs";
+import { loadMissionReviews } from "@/lib/storage/reviews";
 import { loadDriverRules } from "@/lib/storage/rules";
 import { loadShifts } from "@/lib/storage/shifts";
 import { loadTimelineEvents } from "@/lib/storage/timeline";
@@ -22,6 +23,7 @@ export type DriverOpsSnapshot = {
   experiments: ReturnType<typeof loadExperiments>;
   experimentResults: ReturnType<typeof loadExperimentResults>;
   executionPlan: ReturnType<typeof loadExecutionPlan>;
+  reviews: ReturnType<typeof loadMissionReviews>;
 };
 
 export function createDriverOpsSnapshot(): DriverOpsSnapshot {
@@ -38,6 +40,7 @@ export function createDriverOpsSnapshot(): DriverOpsSnapshot {
     experiments: loadExperiments(),
     experimentResults: loadExperimentResults(),
     executionPlan: loadExecutionPlan(),
+    reviews: loadMissionReviews(),
   };
 }
 
