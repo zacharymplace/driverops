@@ -4,9 +4,26 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { createSampleClosedShifts } from "@/lib/dev/sampleShifts";
+import { createDriverOpsSnapshotJson } from "@/lib/export/driverOpsSnapshot";
 
 export default function DevPage() {
   const [message, setMessage] = useState("");
+
+  function exportSnapshot() {
+    const snapshot = createDriverOpsSnapshotJson();
+    const blob = new Blob([snapshot], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+
+    anchor.href = url;
+    anchor.download = `driverops-snapshot-${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
+    anchor.click();
+
+    URL.revokeObjectURL(url);
+    setMessage("DriverOps snapshot exported.");
+  }
 
   function seedSampleShifts() {
     const shifts = createSampleClosedShifts(5);
@@ -54,12 +71,21 @@ export default function DevPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              onClick={seedSampleShifts}
-              className="rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-zinc-950 hover:bg-emerald-400"
-            >
-              Seed Sample Shifts
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={seedSampleShifts}
+                className="rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-zinc-950 hover:bg-emerald-400"
+              >
+                Seed Sample Shifts
+              </button>
+
+              <button
+                onClick={exportSnapshot}
+                className="rounded-xl border border-zinc-700 px-5 py-3 font-semibold text-zinc-300 hover:bg-zinc-800"
+              >
+                Export Snapshot
+              </button>
+            </div>
 
             <button
               onClick={clearShifts}
