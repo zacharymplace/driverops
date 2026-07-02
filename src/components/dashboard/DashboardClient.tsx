@@ -15,6 +15,7 @@ import { getLatestShiftSummary } from "@/lib/analytics/latestShiftSummary";
 import { getShiftMetrics } from "@/lib/analytics/shiftMetrics";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
+import { getActionOptions } from "@/lib/recommendations/actionOptions";
 import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
 import {
   getShiftHistoryAverages,
@@ -40,6 +41,7 @@ export function DashboardClient() {
   }, []);
 
   const decision = getDecisionSnapshot();
+  const actionOptions = getActionOptions();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -158,6 +160,58 @@ export function DashboardClient() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    Ranked Action Options
+                  </div>
+
+                  <div className="mt-4 grid gap-3">
+                    {actionOptions.options.map((option) => (
+                      <div
+                        key={option.type}
+                        className="rounded-lg border border-zinc-800 p-4"
+                      >
+                        <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                          <div>
+                            <div className="font-semibold">{option.label}</div>
+                            <div className="mt-1 text-sm text-zinc-500">
+                              {option.type === actionOptions.recommended.type
+                                ? "Recommended"
+                                : "Alternative"}
+                            </div>
+                          </div>
+
+                          <div className="grid gap-3 text-sm md:grid-cols-2">
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Expected Net
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {formatMoney(option.expectedNet)}
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Confidence
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {option.confidence}%
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-zinc-400">
+                          {option.rationale.map((reason) => (
+                            <li key={reason}>{reason}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
                   <div className="rounded-xl bg-zinc-950 p-5">
