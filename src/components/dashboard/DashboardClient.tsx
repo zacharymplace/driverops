@@ -24,6 +24,7 @@ import { getSimulationSet } from "@/lib/simulation/simulationEngine";
 import { loadMissionReviews } from "@/lib/storage/reviews";
 import { loadTimelineEvents } from "@/lib/storage/timeline";
 import { getTimelineSummary } from "@/lib/timeline/timelineSummary";
+import { getKnowledgeItems, getKnowledgeSummary } from "@/lib/knowledge/knowledgeBase";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -53,6 +54,8 @@ export function DashboardClient() {
   const evidence = getEvidenceSummary();
   const policy = getPolicyResult();
   const simulations = getSimulationSet();
+  const knowledge = getKnowledgeItems();
+  const knowledgeSummary = getKnowledgeSummary();
   const reviews = loadMissionReviews();
   const timelineEvents = loadTimelineEvents();
   const timelineSummary = getTimelineSummary();
@@ -665,6 +668,45 @@ export function DashboardClient() {
               label="Avg Daily Net"
               value={formatMoney(historyAverages.averageDailyNet)}
             />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="text-sm uppercase tracking-wide text-zinc-500">
+            Knowledge Base
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-4">
+            <Metric label="Items" value={String(knowledgeSummary.totalItems)} />
+            <Metric
+              label="High Confidence"
+              value={String(knowledgeSummary.highConfidenceItems)}
+            />
+            <Metric
+              label="Demand Patterns"
+              value={String(knowledgeSummary.demandPatterns)}
+            />
+            <Metric
+              label="Cost Assumptions"
+              value={String(knowledgeSummary.costAssumptions)}
+            />
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {knowledge.slice(0, 4).map((item) => (
+              <div key={item.id} className="rounded-xl bg-zinc-950 p-4">
+                <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                  <div>
+                    <div className="font-semibold">{item.label}</div>
+                    <p className="mt-1 text-sm text-zinc-400">{item.detail}</p>
+                  </div>
+
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    {item.type} · {item.confidence}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
