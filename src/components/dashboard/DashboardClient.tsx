@@ -17,6 +17,7 @@ import { formatMoney } from "@/lib/finance/formatMoney";
 import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
 import { getActionOptions } from "@/lib/recommendations/actionOptions";
 import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
+import { getForecastSet } from "@/lib/recommendations/forecasts";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -42,6 +43,7 @@ export function DashboardClient() {
 
   const decision = getDecisionSnapshot();
   const actionOptions = getActionOptions();
+  const forecastSet = getForecastSet();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -160,6 +162,76 @@ export function DashboardClient() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    Forecasts
+                  </div>
+
+                  <div className="mt-4 grid gap-3">
+                    {forecastSet.forecasts.map((forecast) => (
+                      <div
+                        key={forecast.optionType}
+                        className="rounded-lg border border-zinc-800 p-4"
+                      >
+                        <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+                          <div>
+                            <div className="font-semibold">{forecast.label}</div>
+                            <div className="mt-1 text-sm text-zinc-500">
+                              {forecast.optionType === forecastSet.recommended.optionType
+                                ? "Recommended forecast"
+                                : "Alternative forecast"}
+                            </div>
+                          </div>
+
+                          <div className="grid gap-3 text-sm md:grid-cols-4">
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Expected Net
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {formatMoney(forecast.expectedNet)}
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Duration
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {forecast.expectedDurationHours.toFixed(1)} hr
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Net / Hour
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {formatMoney(forecast.expectedNetPerHour)}
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-xs uppercase tracking-wide text-zinc-500">
+                                Vehicle Wear
+                              </div>
+                              <div className="mt-1 font-bold">
+                                {formatMoney(forecast.vehicleWear)}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-zinc-400">
+                          {forecast.rationale.map((reason) => (
+                            <li key={reason}>{reason}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">

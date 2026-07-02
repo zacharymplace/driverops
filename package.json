@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:finance": "tsx --test src/lib/scoring/scoreShift.test.ts",
-    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules && npm run test:rules-storage && npm run test:recommendation-inputs && npm run test:recommendation-source && npm run test:recommendation-history && npm run test:dev-seeds && npm run test:decision-snapshot && npm run test:action-options",
+    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules && npm run test:rules-storage && npm run test:recommendation-inputs && npm run test:recommendation-source && npm run test:recommendation-history && npm run test:dev-seeds && npm run test:decision-snapshot && npm run test:action-options && npm run test:forecasts",
     "check": "npm run lint && npm test",
     "test:events": "tsx --test src/lib/storage/events.test.ts",
     "test:validation": "tsx --test src/lib/validation/shiftCloseout.test.ts",
@@ -20,7 +20,8 @@
     "dev:seed-sample-shifts": "node scripts/seed-sample-shifts.mjs",
     "test:dev-seeds": "tsx --test src/lib/dev/sampleShifts.test.ts",
     "test:decision-snapshot": "tsx --test src/lib/recommendations/getDecisionSnapshot.test.ts",
-    "test:action-options": "tsx --test src/lib/recommendations/actionOptions.test.ts"
+    "test:action-options": "tsx --test src/lib/recommendations/actionOptions.test.ts",
+    "test:forecasts": "tsx --test src/lib/recommendations/forecasts.test.ts"
   },
   "dependencies": {
     "next": "16.2.9",
