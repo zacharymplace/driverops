@@ -50,6 +50,11 @@ export const actions = [
     description: "Edit live market and earnings estimates.",
   },
   {
+    title: "Mission Mode",
+    href: "/mission",
+    description: "Plan and monitor a live shift.",
+  },
+  {
     title: "Dev Tools",
     href: "/dev",
     description: "Seed local test data for Hybrid mode.",
