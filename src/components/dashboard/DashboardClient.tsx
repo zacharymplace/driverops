@@ -18,6 +18,7 @@ import { getWeeklyTarget } from "@/lib/forecasting/weeklyTarget";
 import { getActionOptions } from "@/lib/recommendations/actionOptions";
 import { getDecisionSnapshot } from "@/lib/recommendations/getDecisionSnapshot";
 import { getForecastSet } from "@/lib/recommendations/forecasts";
+import { getEvidenceSummary } from "@/lib/evidence/evidenceEngine";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -44,6 +45,7 @@ export function DashboardClient() {
   const decision = getDecisionSnapshot();
   const actionOptions = getActionOptions();
   const forecastSet = getForecastSet();
+  const evidence = getEvidenceSummary();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -162,6 +164,48 @@ export function DashboardClient() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-8 rounded-xl bg-zinc-950 p-5">
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">
+                    Evidence
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-3">
+                    <Metric label="Support" value={evidence.supportScore.toFixed(2)} />
+                    <Metric label="Risk" value={evidence.riskScore.toFixed(2)} />
+                    <Metric label="Net Evidence" value={evidence.netEvidenceScore.toFixed(2)} />
+                  </div>
+
+                  <div className="mt-5 grid gap-3">
+                    {evidence.items.slice(0, 5).map((item) => (
+                      <div
+                        key={item.id}
+                        className="rounded-lg border border-zinc-800 p-4"
+                      >
+                        <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+                          <div>
+                            <div className="font-semibold">{item.label}</div>
+                            <div className="mt-1 text-sm text-zinc-400">
+                              {item.detail}
+                            </div>
+                          </div>
+
+                          <div
+                            className={
+                              item.direction === "SUPPORTS"
+                                ? "font-bold text-emerald-400"
+                                : item.direction === "WEAKENS"
+                                  ? "font-bold text-red-400"
+                                  : "font-bold text-zinc-400"
+                            }
+                          >
+                            {item.direction}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">
