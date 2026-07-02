@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:finance": "tsx --test src/lib/scoring/scoreShift.test.ts",
-    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules && npm run test:rules-storage && npm run test:recommendation-inputs && npm run test:recommendation-source && npm run test:recommendation-history && npm run test:dev-seeds && npm run test:decision-snapshot && npm run test:action-options && npm run test:forecasts && npm run test:calibration && npm run test:learning && npm run test:evidence && npm run test:policy && npm run test:experiments && npm run test:simulation && npm run test:execution",
+    "test": "npm run test:finance && npm run test:events && npm run test:validation && npm run test:rules && npm run test:rules-storage && npm run test:recommendation-inputs && npm run test:recommendation-source && npm run test:recommendation-history && npm run test:dev-seeds && npm run test:decision-snapshot && npm run test:action-options && npm run test:forecasts && npm run test:calibration && npm run test:learning && npm run test:evidence && npm run test:policy && npm run test:experiments && npm run test:simulation && npm run test:execution && npm run test:timeline",
     "check": "npm run lint && npm test",
     "test:events": "tsx --test src/lib/storage/events.test.ts",
     "test:validation": "tsx --test src/lib/validation/shiftCloseout.test.ts",
@@ -28,7 +28,8 @@
     "test:policy": "tsx --test src/lib/policy/evaluatePolicy.test.ts src/lib/policy/getPolicyResult.test.ts",
     "test:experiments": "tsx --test src/lib/experiments/experimentEngine.test.ts src/lib/storage/experiments.test.ts",
     "test:simulation": "tsx --test src/lib/simulation/simulationEngine.test.ts",
-    "test:execution": "tsx --test src/lib/execution/executionEngine.test.ts src/lib/storage/execution.test.ts"
+    "test:execution": "tsx --test src/lib/execution/executionEngine.test.ts src/lib/storage/execution.test.ts",
+    "test:timeline": "tsx --test src/lib/storage/timeline.test.ts src/lib/timeline/timelineSummary.test.ts"
   },
   "dependencies": {
     "next": "16.2.9",

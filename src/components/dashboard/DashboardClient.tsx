@@ -21,6 +21,8 @@ import { getForecastSet } from "@/lib/recommendations/forecasts";
 import { getEvidenceSummary } from "@/lib/evidence/evidenceEngine";
 import { getPolicyResult } from "@/lib/policy/getPolicyResult";
 import { getSimulationSet } from "@/lib/simulation/simulationEngine";
+import { loadTimelineEvents } from "@/lib/storage/timeline";
+import { getTimelineSummary } from "@/lib/timeline/timelineSummary";
 import {
   getShiftHistoryAverages,
   MINIMUM_HISTORY_SHIFTS,
@@ -50,6 +52,8 @@ export function DashboardClient() {
   const evidence = getEvidenceSummary();
   const policy = getPolicyResult();
   const simulations = getSimulationSet();
+  const timelineEvents = loadTimelineEvents();
+  const timelineSummary = getTimelineSummary();
   const recommendation = decision.recommendation;
   const recommendationSource = getRecommendationSource();
   const historyAverages = getShiftHistoryAverages();
@@ -659,6 +663,60 @@ export function DashboardClient() {
               label="Avg Daily Net"
               value={formatMoney(historyAverages.averageDailyNet)}
             />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="text-sm uppercase tracking-wide text-zinc-500">
+            Operations Timeline
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-4">
+            <Metric
+              label="Events"
+              value={String(timelineSummary.totalEvents)}
+            />
+            <Metric
+              label="Mission"
+              value={String(timelineSummary.missionEvents)}
+            />
+            <Metric
+              label="Policy"
+              value={String(timelineSummary.policyEvents)}
+            />
+            <Metric
+              label="Calibration"
+              value={String(timelineSummary.calibrationEvents)}
+            />
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {timelineEvents.length > 0 ? (
+              timelineEvents.slice(0, 6).map((event) => (
+                <div key={event.id} className="rounded-xl bg-zinc-950 p-4">
+                  <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+                    <div>
+                      <div className="font-semibold">{event.title}</div>
+                      {event.detail && (
+                        <p className="mt-1 text-sm text-zinc-400">
+                          {event.detail}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="text-xs text-zinc-500">
+                      {new Date(event.createdAt).toLocaleString()}
+                    </div>
+                  </div>
+
+                  <div className="mt-2 text-xs uppercase tracking-wide text-zinc-500">
+                    {event.type}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-zinc-400">No operations timeline events recorded yet.</p>
+            )}
           </div>
         </section>
 

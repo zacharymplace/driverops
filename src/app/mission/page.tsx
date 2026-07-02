@@ -13,6 +13,7 @@ import {
   loadExecutionPlan,
   saveExecutionPlan,
 } from "@/lib/storage/execution";
+import { recordTimelineEvent } from "@/lib/storage/timeline";
 import { formatMoney } from "@/lib/finance/formatMoney";
 import type {
   ExecutionPlan,
@@ -35,6 +36,17 @@ export default function MissionPage() {
     const nextPlan = createExecutionPlan();
 
     saveExecutionPlan(nextPlan);
+    recordTimelineEvent({
+      type: "MISSION_CREATED",
+      title: "Mission created",
+      detail: "Execution plan created from the current recommended forecast.",
+      entityId: nextPlan.id,
+      metadata: {
+        targetNet: nextPlan.targetNet,
+        targetNetPerHour: nextPlan.targetNetPerHour,
+        plannedDurationHours: nextPlan.plannedDurationHours,
+      },
+    });
     setPlan(nextPlan);
     setProgress(null);
     setRecommendation(null);
@@ -42,6 +54,12 @@ export default function MissionPage() {
 
   function clearPlan() {
     clearExecutionPlan();
+    recordTimelineEvent({
+      type: "MISSION_CLEARED",
+      title: "Mission cleared",
+      detail: "Saved execution plan was cleared.",
+      entityId: plan?.id,
+    });
     setPlan(null);
     setProgress(null);
     setRecommendation(null);
@@ -57,13 +75,28 @@ export default function MissionPage() {
       milesDriven: Number(milesDriven),
     });
 
+    const nextRecommendation = evaluateExecutionProgress({
+      plan,
+      progress: nextProgress,
+    });
+
+    recordTimelineEvent({
+      type: "MISSION_PROGRESS_CHECKED",
+      title: "Mission progress checked",
+      detail: nextRecommendation.detail,
+      entityId: plan.id,
+      metadata: {
+        grossEarned: nextProgress.grossEarned,
+        hoursElapsed: nextProgress.hoursElapsed,
+        milesDriven: nextProgress.milesDriven,
+        estimatedNet: nextProgress.estimatedNet,
+        estimatedNetPerHour: nextProgress.estimatedNetPerHour,
+        recommendation: nextRecommendation.status,
+      },
+    });
+
     setProgress(nextProgress);
-    setRecommendation(
-      evaluateExecutionProgress({
-        plan,
-        progress: nextProgress,
-      })
-    );
+    setRecommendation(nextRecommendation);
   }
 
   return (
