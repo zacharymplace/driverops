@@ -55,6 +55,11 @@ export const actions = [
     description: "Plan and monitor a live shift.",
   },
   {
+    title: "Operator Briefing",
+    href: "/briefing",
+    description: "Review forecast, policy, evidence, knowledge, and validation readiness.",
+  },
+  {
     title: "Dev Tools",
     href: "/dev",
     description: "Seed local test data for Hybrid mode.",
