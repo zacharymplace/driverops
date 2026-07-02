@@ -159,6 +159,58 @@ export function DashboardClient() {
                   </div>
                 )}
 
+                <div className="mt-8 grid gap-5 md:grid-cols-2">
+                  <div className="rounded-xl bg-zinc-950 p-5">
+                    <div className="text-xs uppercase tracking-wide text-zinc-500">
+                      Top Drivers
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                      {decision.drivers.length > 0 ? (
+                        decision.drivers.map((driver) => (
+                          <div key={driver.label} className="rounded-lg border border-zinc-800 p-4">
+                            <div className="font-semibold text-emerald-400">
+                              {driver.label}
+                            </div>
+                            <div className="mt-1 text-sm text-zinc-400">
+                              {driver.detail}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-sm text-zinc-400">
+                          No positive drivers detected.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl bg-zinc-950 p-5">
+                    <div className="text-xs uppercase tracking-wide text-zinc-500">
+                      Risks
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                      {decision.risks.length > 0 ? (
+                        decision.risks.map((risk) => (
+                          <div key={risk.label} className="rounded-lg border border-zinc-800 p-4">
+                            <div className="font-semibold text-red-400">
+                              {risk.label}
+                            </div>
+                            <div className="mt-1 text-sm text-zinc-400">
+                              {risk.detail}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-sm text-zinc-400">
+                          No major risks detected.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 <div className="mt-8 rounded-xl bg-zinc-950 p-5">
                   <div className="text-xs uppercase tracking-wide text-zinc-500">
                     Recommendation Source
