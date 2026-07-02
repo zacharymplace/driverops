@@ -60,6 +60,11 @@ export const actions = [
     description: "Review forecast, policy, evidence, knowledge, and validation readiness.",
   },
   {
+    title: "Prelaunch Mode",
+    href: "/prelaunch",
+    description: "Check what must be true before recommendations should be trusted.",
+  },
+  {
     title: "Dev Tools",
     href: "/dev",
     description: "Seed local test data for Hybrid mode.",
