@@ -1,0 +1,72 @@
+
+> driverops@0.1.0 production:readiness
+> tsx scripts/production-readiness.mjs
+
+{
+  "status": "BLOCKED",
+  "checks": [
+    {
+      "id": "architecture-freeze",
+      "label": "Architecture freeze",
+      "passed": true,
+      "detail": "Architecture must remain frozen during alpha validation."
+    },
+    {
+      "id": "app-env",
+      "label": "App environment",
+      "passed": false,
+      "detail": "NEXT_PUBLIC_DRIVEROPS_APP_ENV must be set."
+    },
+    {
+      "id": "storage-backend",
+      "label": "Storage backend",
+      "passed": false,
+      "detail": "DRIVEROPS_STORAGE_BACKEND must be explicitly configured."
+    },
+    {
+      "id": "database-url",
+      "label": "Database URL",
+      "passed": true,
+      "detail": "Database-backed deployments require DRIVEROPS_DATABASE_URL."
+    },
+    {
+      "id": "auth-required",
+      "label": "Authentication setting",
+      "passed": false,
+      "detail": "Production should explicitly require authentication."
+    },
+    {
+      "id": "backups",
+      "label": "Backups",
+      "passed": false,
+      "detail": "Production should explicitly enable backups."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "app-env",
+      "label": "App environment",
+      "passed": false,
+      "detail": "NEXT_PUBLIC_DRIVEROPS_APP_ENV must be set."
+    },
+    {
+      "id": "storage-backend",
+      "label": "Storage backend",
+      "passed": false,
+      "detail": "DRIVEROPS_STORAGE_BACKEND must be explicitly configured."
+    },
+    {
+      "id": "auth-required",
+      "label": "Authentication setting",
+      "passed": false,
+      "detail": "Production should explicitly require authentication."
+    },
+    {
+      "id": "backups",
+      "label": "Backups",
+      "passed": false,
+      "detail": "Production should explicitly enable backups."
+    }
+  ]
+}
+Production readiness blocked.

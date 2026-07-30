@@ -1,0 +1,151 @@
+
+> driverops@0.1.0 alpha:status
+> tsx scripts/alpha-status.mjs
+
+{
+  "alpha": {
+    "ready": false,
+    "score": 0,
+    "milestones": [
+      {
+        "id": "missions",
+        "label": "Mission events",
+        "target": 5,
+        "actual": 0,
+        "status": "INCOMPLETE"
+      },
+      {
+        "id": "closeouts",
+        "label": "Closed shifts",
+        "target": 5,
+        "actual": 0,
+        "status": "INCOMPLETE"
+      },
+      {
+        "id": "forecast-comparisons",
+        "label": "Forecast comparisons",
+        "target": 5,
+        "actual": 0,
+        "status": "INCOMPLETE"
+      },
+      {
+        "id": "mission-reviews",
+        "label": "Mission reviews",
+        "target": 5,
+        "actual": 0,
+        "status": "INCOMPLETE"
+      }
+    ],
+    "nextAction": "Run Mission Mode with one real test shift, close it out, and compare forecast versus actual."
+  },
+  "prelaunch": {
+    "ready": false,
+    "score": 50,
+    "checks": [
+      {
+        "id": "vehicle-costs",
+        "label": "Vehicle cost assumptions",
+        "detail": "Fuel, mileage, maintenance, depreciation, and tax reserve are configured.",
+        "status": "PASS"
+      },
+      {
+        "id": "knowledge-base",
+        "label": "Starting knowledge base",
+        "detail": "Default operating knowledge is available before real data exists.",
+        "status": "PASS"
+      },
+      {
+        "id": "simulations",
+        "label": "Simulated missions",
+        "detail": "Run scenario simulations before trusting live recommendations.",
+        "status": "PASS"
+      },
+      {
+        "id": "timeline",
+        "label": "Operations timeline",
+        "detail": "Mission events should be recorded once dry runs or real shifts begin.",
+        "status": "NEEDS_REVIEW"
+      },
+      {
+        "id": "real-shifts",
+        "label": "Real shift history",
+        "detail": "At least one completed real shift is needed before recommendations should be trusted.",
+        "status": "MISSING"
+      },
+      {
+        "id": "mission-reviews",
+        "label": "Mission reviews",
+        "detail": "At least one review is needed before learning can be trusted.",
+        "status": "MISSING"
+      }
+    ],
+    "recommendation": "Do not trust recommendations yet. Complete prelaunch checks, run simulated missions, then complete one real test shift."
+  },
+  "production": {
+    "status": "BLOCKED",
+    "checks": [
+      {
+        "id": "architecture-freeze",
+        "label": "Architecture freeze",
+        "passed": true,
+        "detail": "Architecture must remain frozen during alpha validation."
+      },
+      {
+        "id": "app-env",
+        "label": "App environment",
+        "passed": false,
+        "detail": "NEXT_PUBLIC_DRIVEROPS_APP_ENV must be set."
+      },
+      {
+        "id": "storage-backend",
+        "label": "Storage backend",
+        "passed": false,
+        "detail": "DRIVEROPS_STORAGE_BACKEND must be explicitly configured."
+      },
+      {
+        "id": "database-url",
+        "label": "Database URL",
+        "passed": true,
+        "detail": "Database-backed deployments require DRIVEROPS_DATABASE_URL."
+      },
+      {
+        "id": "auth-required",
+        "label": "Authentication setting",
+        "passed": false,
+        "detail": "Production should explicitly require authentication."
+      },
+      {
+        "id": "backups",
+        "label": "Backups",
+        "passed": false,
+        "detail": "Production should explicitly enable backups."
+      }
+    ],
+    "blockers": [
+      {
+        "id": "app-env",
+        "label": "App environment",
+        "passed": false,
+        "detail": "NEXT_PUBLIC_DRIVEROPS_APP_ENV must be set."
+      },
+      {
+        "id": "storage-backend",
+        "label": "Storage backend",
+        "passed": false,
+        "detail": "DRIVEROPS_STORAGE_BACKEND must be explicitly configured."
+      },
+      {
+        "id": "auth-required",
+        "label": "Authentication setting",
+        "passed": false,
+        "detail": "Production should explicitly require authentication."
+      },
+      {
+        "id": "backups",
+        "label": "Backups",
+        "passed": false,
+        "detail": "Production should explicitly enable backups."
+      }
+    ]
+  }
+}
