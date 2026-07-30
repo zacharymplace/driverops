@@ -4,13 +4,14 @@ import type {
   ProductionReadinessReport,
 } from "@/types/production";
 
-export type ProductionEnv = {
-  NEXT_PUBLIC_DRIVEROPS_APP_ENV?: string;
-  DRIVEROPS_STORAGE_BACKEND?: string;
-  DRIVEROPS_DATABASE_URL?: string;
-  DRIVEROPS_AUTH_REQUIRED?: string;
-  DRIVEROPS_BACKUP_ENABLED?: string;
-};
+export type ProductionEnv =
+  NodeJS.ProcessEnv & {
+    NEXT_PUBLIC_DRIVEROPS_APP_ENV?: string;
+    DRIVEROPS_STORAGE_BACKEND?: string;
+    DRIVEROPS_DATABASE_URL?: string;
+    DRIVEROPS_AUTH_REQUIRED?: string;
+    DRIVEROPS_BACKUP_ENABLED?: string;
+  };
 
 export function getProductionReadinessReport(
   env: ProductionEnv = process.env

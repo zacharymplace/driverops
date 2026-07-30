@@ -7,22 +7,27 @@
   "source": {
     "repository": "zacharymplace/driverops",
     "path": ".",
-    "commit": "425fda0"
+    "commit": "b18bb4b"
   },
   "evidence": [
     {
       "kind": "test",
-      "reference": "npm test",
-      "result": "pass"
-    },
-    {
-      "kind": "validation",
-      "reference": "npm run lint",
+      "reference": "npm run check",
       "result": "pass"
     },
     {
       "kind": "validation",
       "reference": "npm run build",
+      "result": "pass"
+    },
+    {
+      "kind": "validation",
+      "reference": "npm run test:execution",
+      "result": "pass"
+    },
+    {
+      "kind": "validation",
+      "reference": "npm run test:production",
       "result": "pass"
     },
     {
@@ -41,9 +46,9 @@
       "result": "informational"
     }
   ],
-  "last_verified_at": "2026-07-30T23:25:38Z",
+  "last_verified_at": "2026-07-30T23:27:53Z",
   "next_action": {
-    "description": "Run a bounded alpha validation cycle using realistic shift data and capture the resulting readiness evidence.",
+    "description": "Run one bounded alpha-validation shift, close it out, and compare forecast versus actual.",
     "command": "npm run alpha:status"
   },
   "blockers": [],
