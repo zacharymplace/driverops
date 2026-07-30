@@ -20,7 +20,7 @@ export function getPrelaunchReadiness(): PrelaunchReadiness {
       label: "Vehicle cost assumptions",
       detail: "Fuel, mileage, maintenance, depreciation, and tax reserve are configured.",
       status:
-        vehicle.milesPerGallon > 0 &&
+        vehicle.mpg > 0 &&
         vehicle.fuelPricePerGallon > 0 &&
         vehicle.maintenancePerMile >= 0 &&
         vehicle.depreciationPerMile >= 0 &&

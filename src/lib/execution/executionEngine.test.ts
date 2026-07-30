@@ -54,8 +54,8 @@ test("calculateExecutionProgress estimates live net", () => {
   });
 
   assert.equal(progress.planId, plan.id);
-  assert.ok(progress.estimatedNet > 0);
-  assert.ok(progress.estimatedNetPerHour > 0);
+  assert.equal(progress.estimatedNet, 89);
+  assert.equal(progress.estimatedNetPerHour, 44.5);
 });
 
 test("evaluateExecutionProgress recommends stop below stop-loss", () => {

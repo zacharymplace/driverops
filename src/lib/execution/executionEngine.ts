@@ -34,8 +34,8 @@ export function calculateExecutionProgress({
 }): ExecutionProgress {
   const vehicle = loadVehicleProfile();
   const fuelCost =
-    vehicle.milesPerGallon > 0
-      ? (milesDriven / vehicle.milesPerGallon) * vehicle.fuelPricePerGallon
+    vehicle.mpg > 0
+      ? (milesDriven / vehicle.mpg) * vehicle.fuelPricePerGallon
       : 0;
 
   const vehicleCost =
