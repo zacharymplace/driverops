@@ -1,0 +1,64 @@
+{
+  "schema_version": "systems-builder-lifecycle-v1",
+  "system_id": "driverops",
+  "display_name": "DriverOps",
+  "phase": "validate",
+  "condition": "failing",
+  "source": {
+    "repository": "zacharymplace/driverops",
+    "path": ".",
+    "commit": "425fda0"
+  },
+  "evidence": [
+    {
+      "kind": "test",
+      "reference": "npm test",
+      "result": "pass"
+    },
+    {
+      "kind": "validation",
+      "reference": "npm run lint",
+      "result": "pass"
+    },
+    {
+      "kind": "validation",
+      "reference": "npm run build",
+      "result": "fail"
+    },
+    {
+      "kind": "decision",
+      "reference": "docs/architecture/freeze.md",
+      "result": "informational"
+    },
+    {
+      "kind": "observation",
+      "reference": "docs/production/readiness.md",
+      "result": "informational"
+    },
+    {
+      "kind": "demonstration",
+      "reference": "sample-shifts.json",
+      "result": "informational"
+    }
+  ],
+  "last_verified_at": "2026-07-30T23:14:26Z",
+  "next_action": {
+    "description": "Repair the VehicleProfile type contract used by the execution engine so the production build passes without weakening the architecture freeze.",
+    "command": "npm run build"
+  },
+  "blockers": [
+    "Production build fails because src/lib/execution/executionEngine.ts reads VehicleProfile.milesPerGallon, which is not declared on the current VehicleProfile type."
+  ],
+  "capabilities": [
+    "shift-profit-scoring",
+    "drive-wait-stand-down-recommendations",
+    "shift-closeout-validation",
+    "forecast-calibration",
+    "policy-evaluation",
+    "execution-monitoring",
+    "mission-review",
+    "rideshare-csv-import",
+    "production-readiness-reporting",
+    "alpha-readiness-reporting"
+  ]
+}
