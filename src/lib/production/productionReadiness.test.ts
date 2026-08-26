@@ -4,7 +4,7 @@ import { test } from "node:test";
 import { getProductionReadinessReport } from "./productionReadiness";
 
 test("getProductionReadinessReport blocks incomplete env", () => {
-  const report = getProductionReadinessReport({});
+  const report = getProductionReadinessReport({ NODE_ENV: "test" });
 
   assert.equal(report.status, "BLOCKED");
   assert.ok(report.blockers.length > 0);
@@ -12,6 +12,7 @@ test("getProductionReadinessReport blocks incomplete env", () => {
 
 test("getProductionReadinessReport allows complete local alpha env", () => {
   const report = getProductionReadinessReport({
+    NODE_ENV: "test",
     NEXT_PUBLIC_DRIVEROPS_APP_ENV: "alpha",
     DRIVEROPS_STORAGE_BACKEND: "localStorage",
     DRIVEROPS_AUTH_REQUIRED: "true",
@@ -23,6 +24,7 @@ test("getProductionReadinessReport allows complete local alpha env", () => {
 
 test("getProductionReadinessReport requires database url for postgres", () => {
   const report = getProductionReadinessReport({
+    NODE_ENV: "test",
     NEXT_PUBLIC_DRIVEROPS_APP_ENV: "alpha",
     DRIVEROPS_STORAGE_BACKEND: "postgres",
     DRIVEROPS_AUTH_REQUIRED: "true",
