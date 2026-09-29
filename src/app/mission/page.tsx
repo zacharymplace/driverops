@@ -102,9 +102,9 @@ export default function MissionPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-5xl px-8 py-10">
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold">Mission Mode</h1>
+            <h1 className="text-4xl font-bold [overflow-wrap:anywhere]">Mission Mode</h1>
             <p className="mt-3 text-zinc-400">
               Plan, monitor, and adapt a shift using DriverOps execution logic.
             </p>
@@ -112,7 +112,7 @@ export default function MissionPage() {
 
           <Link
             href="/"
-            className="rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
+            className="shrink-0 rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
           >
             Dashboard
           </Link>

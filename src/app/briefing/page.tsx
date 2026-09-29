@@ -18,15 +18,15 @@ export default function BriefingPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-5xl px-8 py-10">
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold">Operator Briefing</h1>
+            <h1 className="text-4xl font-bold [overflow-wrap:anywhere]">Operator Briefing</h1>
             <p className="mt-3 text-zinc-400">
               A daily view of forecast, evidence, policy, knowledge, and validation readiness.
             </p>
           </div>
 
-          <Link href="/" className="rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900">
+          <Link href="/" className="shrink-0 rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900">
             Dashboard
           </Link>
         </div>

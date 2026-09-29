@@ -10,9 +10,9 @@ export default function PrelaunchPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-5xl px-8 py-10">
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold">Prelaunch Mode</h1>
+            <h1 className="text-4xl font-bold [overflow-wrap:anywhere]">Prelaunch Mode</h1>
             <p className="mt-3 text-zinc-400">
               DriverOps is not validated until real operating data exists. Use this checklist before trusting recommendations.
             </p>
@@ -20,7 +20,7 @@ export default function PrelaunchPage() {
 
           <Link
             href="/"
-            className="rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
+            className="shrink-0 rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
           >
             Dashboard
           </Link>
@@ -40,8 +40,8 @@ export default function PrelaunchPage() {
             <div
               className={
                 readiness.ready
-                  ? "rounded-xl bg-emerald-950 px-5 py-4 font-bold text-emerald-300"
-                  : "rounded-xl bg-yellow-950 px-5 py-4 font-bold text-yellow-300"
+                  ? "rounded-xl bg-emerald-950 shrink-0 px-5 py-4 font-bold text-emerald-300"
+                  : "rounded-xl bg-yellow-950 shrink-0 px-5 py-4 font-bold text-yellow-300"
               }
             >
               {readiness.ready ? "READY" : "PRELAUNCH"}

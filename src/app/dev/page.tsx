@@ -44,9 +44,9 @@ export default function DevPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-3xl px-8 py-10">
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold">Dev Tools</h1>
+            <h1 className="text-4xl font-bold [overflow-wrap:anywhere]">Dev Tools</h1>
 
             <p className="mt-3 text-zinc-400">
               Local-only utilities for testing DriverOps behavior quickly.
@@ -55,7 +55,7 @@ export default function DevPage() {
 
           <Link
             href="/"
-            className="rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
+            className="shrink-0 rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
           >
             Dashboard
           </Link>

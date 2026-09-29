@@ -82,3 +82,11 @@ a.border-zinc-700, button.border-zinc-700 { border-style: dashed !important; }
 
 input, textarea, select { font-family: var(--font-mono); border-radius: 0; }
 pre { overflow-x: auto; }
+
+/* text-zinc-950 maps to --paper and Tailwind's important utilities live in @layer utilities, so the unlayered
+   .bg-emerald-500 colour above loses. Paper on --spot is 4.18:1 in light; --on-spot is white there (4.81:1). */
+@layer utilities {
+  button.bg-emerald-500, a.bg-emerald-500 { color: var(--on-spot) !important; }
+}
+/* Grid and flex children default to min-width:auto, so wide mono figures push rows past a 400px screen. */
+.grid > *, .flex > * { min-width: 0; }

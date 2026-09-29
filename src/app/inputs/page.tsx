@@ -71,9 +71,9 @@ export default function InputsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-4xl px-8 py-10">
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold">Recommendation Inputs</h1>
+            <h1 className="text-4xl font-bold [overflow-wrap:anywhere]">Recommendation Inputs</h1>
 
             <p className="mt-3 max-w-2xl text-zinc-400">
               Edit the current market and earnings estimates that feed the
@@ -83,7 +83,7 @@ export default function InputsPage() {
 
           <Link
             href="/"
-            className="rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
+            className="shrink-0 rounded-xl border border-zinc-800 px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-900"
           >
             Dashboard
           </Link>

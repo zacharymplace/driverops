@@ -77,9 +77,9 @@ export function DashboardClient() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-7xl px-8 py-10">
-        <header className="flex items-center justify-between">
+        <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-5xl font-bold tracking-tight">DriverOps</h1>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">DriverOps</h1>
             <p className="mt-2 text-zinc-400">Drive by margin, not by hope.</p>
           </div>
 
@@ -247,7 +247,7 @@ export function DashboardClient() {
                     <div
                       className={
                         policy.allowed
-                          ? "rounded-xl bg-emerald-950 px-4 py-3 text-sm font-bold text-emerald-300"
+                          ? "shrink-0 rounded-xl bg-emerald-950 px-4 py-3 text-sm font-bold text-emerald-300"
                           : "rounded-xl bg-red-950 px-4 py-3 text-sm font-bold text-red-300"
                       }
                     >
@@ -644,7 +644,7 @@ export function DashboardClient() {
               className={
                 historyReady
                   ? "rounded-xl bg-emerald-950 px-4 py-3 text-sm font-bold text-emerald-300"
-                  : "rounded-xl bg-zinc-950 px-4 py-3 text-sm font-bold text-yellow-300"
+                  : "shrink-0 rounded-xl bg-zinc-950 px-4 py-3 text-sm font-bold text-yellow-300"
               }
             >
               {historyReady ? "History Active" : "Collecting"}
