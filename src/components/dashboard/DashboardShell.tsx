@@ -24,7 +24,7 @@ function DashboardLoading() {
         <div className="h-10 w-48 rounded-xl bg-zinc-900" />
         <div className="mt-4 h-5 w-64 rounded-xl bg-zinc-900" />
 
-        <div className="mt-8 grid gap-4 md:grid-cols-7">
+        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-7">
           {Array.from({ length: 7 }).map((_, index) => (
             <div
               key={index}

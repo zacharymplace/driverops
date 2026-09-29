@@ -96,7 +96,7 @@ export function DashboardClient() {
           </div>
         </header>
 
-        <section className="mt-8 grid grid-cols-2 gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 md:grid-cols-7">
+        <section className="mt-8 grid grid-cols-2 gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 md:grid-cols-4 xl:grid-cols-7">
           {dashboardKpis.map(([label, value]) => (
             <div key={label} className="rounded-xl bg-zinc-950 p-4 text-center">
               <div className="text-xs uppercase tracking-wide text-zinc-500">
@@ -200,10 +200,10 @@ export function DashboardClient() {
                           <div
                             className={
                               simulation.recommendation === "FAVORABLE"
-                                ? "font-bold text-emerald-400"
+                                ? "border-[1.5px] border-solid border-emerald-400 px-2 py-0.5 font-bold text-emerald-400"
                                 : simulation.recommendation === "BLOCKED"
-                                  ? "font-bold text-red-400"
-                                  : "font-bold text-yellow-300"
+                                  ? "border-[3px] border-double border-red-400 px-2 py-0.5 font-bold text-red-400"
+                                  : "border-[1.5px] border-dashed border-yellow-300 px-2 py-0.5 font-bold text-yellow-300"
                             }
                           >
                             {simulation.recommendation}
@@ -871,7 +871,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl bg-zinc-950 p-4 text-center">
       <div className="text-xs uppercase tracking-wide text-zinc-500">{label}</div>
-      <div className="mt-2 text-2xl font-bold">{value}</div>
+      <div className="mt-2 text-2xl font-bold [overflow-wrap:anywhere]">{value}</div>
     </div>
   );
 }
