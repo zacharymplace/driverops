@@ -1,26 +1,84 @@
-@import "tailwindcss";
+@import "./house-style.css";
+@import "tailwindcss" important;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --on-spot: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --on-spot: var(--paper);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root[data-theme="dark"] {
+  --on-spot: var(--paper);
 }
+
+/* The screens are written against a dark zinc/emerald palette.
+   Remap that palette onto the house tokens instead of touching every class. */
+@theme {
+  --color-white: var(--ink);
+  --color-zinc-950: var(--paper);
+  --color-zinc-900: var(--paper-2);
+  --color-zinc-800: var(--rule-strong);
+  --color-zinc-700: var(--rule-strong);
+  --color-zinc-500: var(--ink-2);
+  --color-zinc-400: var(--ink-2);
+  --color-zinc-300: var(--ink);
+  --color-gray-600: var(--ink-2);
+  --color-emerald-950: var(--data-tint);
+  --color-emerald-500: var(--spot);
+  --color-emerald-400: var(--data);
+  --color-emerald-300: var(--ink);
+  --color-yellow-950: var(--paper-2);
+  --color-yellow-400: var(--ink);
+  --color-yellow-300: var(--ink);
+  --color-red-950: var(--spot-tint);
+  --color-red-900: var(--rule-strong);
+  --color-red-400: var(--ink);
+  --color-red-300: var(--ink);
+  --color-red-200: var(--ink);
+  --color-blue-400: var(--data);
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-full: 0;
+  --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Utilities carry !important, so these overrides do too. */
+.border { border-width: 1.5px !important; }
+
+/* Primary actions: spot ground, condensed caps. */
+.bg-emerald-500 {
+  border: var(--border) !important;
+  color: var(--on-spot) !important;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.hover\:bg-emerald-400:hover { background-color: var(--ink) !important; color: var(--paper) !important; }
+.hover\:bg-zinc-800:hover { background-color: var(--paper-3) !important; }
+
+/* Secondary actions and back links. */
+a.border, button.border {
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+a.border-zinc-700, button.border-zinc-700 { border-style: dashed !important; }
+
+/* State by border style, not colour alone. */
+.bg-emerald-950 { border: 1.5px solid var(--rule-strong) !important; }
+.bg-yellow-950 { border: 1.5px dashed var(--rule-strong) !important; }
+.bg-red-950, .border-red-900 { border: 3px double var(--rule-strong) !important; }
+
+/* Figures and status readouts. */
+.text-7xl, .text-6xl, .text-4xl, .text-3xl { font-family: var(--font-mono); letter-spacing: -0.03em; }
+
+input, textarea, select { font-family: var(--font-mono); border-radius: 0; }
+pre { overflow-x: auto; }
