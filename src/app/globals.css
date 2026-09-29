@@ -61,8 +61,6 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-.hover\:bg-emerald-400:hover { background-color: var(--ink) !important; color: var(--paper) !important; }
-.hover\:bg-zinc-800:hover { background-color: var(--paper-3) !important; }
 
 /* Secondary actions and back links. */
 a.border, button.border {
@@ -90,3 +88,10 @@ pre { overflow-x: auto; }
 }
 /* Grid and flex children default to min-width:auto, so wide mono figures push rows past a 400px screen. */
 .grid > *, .flex > * { min-width: 0; }
+
+/* Hover states. Tailwind's important hover utilities sit in @layer utilities and beat unlayered important rules, so
+   hover:bg-zinc-800 painted buttons --ink under --ink text (1.0:1). Same layer, doubled class for specificity. */
+@layer utilities {
+  .hover\:bg-emerald-400.hover\:bg-emerald-400:hover { background-color: var(--ink) !important; color: var(--paper) !important; }
+  .hover\:bg-zinc-800.hover\:bg-zinc-800:hover { background-color: var(--paper-3) !important; }
+}

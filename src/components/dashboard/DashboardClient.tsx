@@ -114,7 +114,7 @@ export function DashboardClient() {
                 <div className="text-sm uppercase tracking-wider text-zinc-500">
                   Active Shift
                 </div>
-                <div className="mt-5 text-6xl font-bold text-emerald-400">
+                <div className="mt-5 text-4xl font-bold text-emerald-400 sm:text-6xl [overflow-wrap:anywhere]">
                   LIVE
                 </div>
                 <p className="mt-5 max-w-2xl text-zinc-400">
@@ -135,7 +135,7 @@ export function DashboardClient() {
                   Recommendation
                 </div>
 
-                <div className="mt-5 text-7xl font-bold text-yellow-400">
+                <div className="mt-5 text-5xl font-bold text-yellow-400 sm:text-7xl [overflow-wrap:anywhere]">
                   {recommendation.status}
                 </div>
 
