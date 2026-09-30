@@ -7,7 +7,7 @@
   "source": {
     "repository": "zacharymplace/driverops",
     "path": ".",
-    "commit": "e555a8c2"
+    "commit": "dd5a2a2"
   },
   "evidence": [
     {
@@ -46,7 +46,7 @@
       "result": "informational"
     }
   ],
-  "last_verified_at": "2026-08-30T20:47:01Z",
+  "last_verified_at": "2026-09-30T08:09:15Z",
   "next_action": {
     "description": "Run one bounded alpha-validation shift, close it out, and compare forecast versus actual.",
     "command": "npm run alpha:status"
